@@ -16,15 +16,14 @@
 2. Resistent gegen Angreifer / Einflüsse von außen. Fallen einzelne Knoten aus,
    können andere die Hauptaufgaben übernehmen, auch wenn einzelne Dienste dann
    ggf. nicht mehr angeboten werden. Im Falle von Filesharing Systemen würde das
-   bedeuten, einzelne Dateien mögen nicht mehr so oft angeboten werden, das
+   bedeuten, dass einzelne Dateien nicht mehr so oft angeboten werden. Das
    Netzwerk als solches wird aber nicht beeinflusst. Jeder in dem Netzwerk
    profitiert von diesem Vorteil.
 3. P2P Netzwerke sitzen als eine weitere Ebene über anderen Netzwerken, so dass
    P2P Systeme im Prinzip auf einer Vielzahl verschiedener Netze, Protokolle
    etc. laufen können, ohne das der Benutzer des Systems etwas davon mitbekommen
    müsste. Diese Eigenschaft würde Benutzer betreffen, wenn unser Netzwerk /
-   Internet heterogener aufgebaut wäre. In der heutigen Zeit wohl nicht mehre so
-   interessant.
+   Internet heterogener aufgebaut wäre. In der heutigen Zeit nicht mehr alzu bedeutend.
 
 
 *** Drawbacks when using P2P
@@ -32,12 +31,12 @@
    einmal als wichtige Teilnehmer des Netzwerkes etabliert, senden dann
    allerdings falsche Informationen (im Gegensatz zu einfach ausfallen), kann
    das ganze Netzwerk in Mitleidenschaft gezogen werden. Je nach Protokoll und
-   Dichte des Netzes kann diese Art von Angriff sehr schwer, oder fast trivial
-   sein. Betrifft alle, die dieses Netzwerk verwenden.
+   Dichte des Netzes kann diese Art von Angriff sehr schwer sein, da er sehr trivial
+   ist. Betrifft alle, die dieses Netzwerk verwenden.
 2. Eine Sicherung des Systems / Netzwerkes ist nicht möglich. Bietet ein Peer
    eine einzigartige Dienstleistung an, verlässt dann aber das System, ist auch
    die Dienstleistung nicht mehr verfügbar. Hat nur Auswirkungen, wenn kein
-   andere den Platz einnehmen kann, beeinflusst aber alle, die an dieser
+   anderer den Platz einnehmen kann, beeinflusst aber alle, die an dieser
    Dienstleistung interessiert sind.
 3. Da jeder Peer potentiell auch für die Weiterleitung von Packeten, für die
    Discovery etc, verwendet wird, können schwächere Systeme, oder Systeme mit
@@ -47,13 +46,13 @@
 
 *** Challenges when using P2P
 1. Sicherheit. Jeder der das P2P Protokoll implementiert kann an dem Netz
-   teilnehmen, auch Systeme, die ggf. böse Absichten haben. Beispielsweise
+   teilnehmen, auch Systeme, die ggf. böse Absichten haben. Bsp:
    Fehlerhafte Dateien anbieten (Filesharing), Flooding des Netzwerkes oder
    einzelner Knoten, etc.
 2. Sehr Dynamische Umgebung. Peers können jederzeit neu hinzukommen und wieder
-   aussteigen. Bisherige Routing Pfade können sich auf einmal auflösen, in
-   kleineren Netzen kann es zum Aufteilen des Netzes führen, so dass 2 oder
-   mehr teile des Netzes zeitweise keine Verbindung mehr zueinander haben.
+   aussteigen. Bisherige Routing Pfade können sich plötzlich auflösen und in
+   kleineren Netzen kann es zur Aufteilung des Netzes führen, so dass 2 oder
+   mehr Teile des Netzes zeitweise keine Verbindung mehr zueinander haben.
 
 ** Client/Server Models
 *** Examples
@@ -64,7 +63,7 @@
    Verfügung. Die meisten relationalen DBMS verwenden dieses System.
 
 *** Extended Client/Server Model
-Im einfachen Client/Server Modell ist der Server ein Physikalisches gerät, im
+Im einfachen Client/Server Modell ist der Server ein physikalisches Gerät, im
 erweiterten Client/Server Modell kann der Server seinerseits gewisse Aufgaben an
 andere Systeme verteilten, oder fallback Server ausweisen, die im Falle eines
 Ausfalls die Rolle des Servers übernehmen. \\
@@ -121,4 +120,7 @@ dem primären Server. \\
 1. Jeder Server muss nur über einen weiteren Server wissen, an denen alle
    Anfragen weitergeleitet werden, wenn sie nicht selbst vollständig bearbeitet
    werden können.
-2. ???
+2. Die Verantwortung für die Berechnung wird komplett an den Server abgegeben,
+   der die Berechnungen ausführen soll. Im Gegensatz zum iterativen Modell ist
+   es nicht nötig die Ergebnisse von parallelen Berechnungen zusammenführen
+   zu müssen. 
