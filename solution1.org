@@ -1,5 +1,5 @@
 #+TITLE:                TK1 - Theorie Aufgabe 1
-#+AUTHOR:               Arne Link 1582381, Lars Fritche \\ Gruppe 14 (S217/103)
+#+AUTHOR:               Arne Link (1582381), Lars Fritche (1691285) \\ Gruppe 14 (S217/103)
 #+LANGUAGE:             de
 #+startup:              koma-article
 #+LaTeX_CLASS:          koma-article
@@ -123,4 +123,4 @@ dem primären Server. \\
 2. Die Verantwortung für die Berechnung wird komplett an den Server abgegeben,
    der die Berechnungen ausführen soll. Im Gegensatz zum iterativen Modell ist
    es nicht nötig die Ergebnisse von parallelen Berechnungen zusammenführen
-   zu müssen. 
+   zu müssen.
