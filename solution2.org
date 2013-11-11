@@ -1,0 +1,53 @@
+#+TITLE:                TK1 - Theorie Aufgabe 1
+#+AUTHOR:               Arne Link (1582381), Lars Fritche (1691285) \\ Gruppe 14 (S217/103)
+#+LANGUAGE:             de
+#+startup:              koma-article
+#+LaTeX_CLASS:          koma-article
+#+OPTIONS:              toc:nil
+#+LATEX_HEADER:         \renewcommand{\thesubsubsection}{\alph{subsubsection})}
+
+* Aufgabe 2.1
+** RFCs
+*** Name, origin, and purpose
+	RFC steht für 'Request of Comments'. Bei einem RFC handelt es sich um eine organisatorische bzw. technische Spezifikation 
+	zum Internet, wie zum Beispiel Netzprotokolle. Begonnen wurde die RFC Dokumentation im Jahr 1969, zu Zeiten des Arpanets,
+	eines Vorläufers des Internets. Wichtige Merkmale eines RFC's sind zum einen die Formalismen über Sprachelemente, 
+	die in RFC's oft verwendet werden. Dazu zählen beispielweise 'REQUIRED', 'SHOULD', 'MUST' oder 'MUST NOT'. 
+	Durch die eindeutige Spezifikation dieser bleibt dem Leser eines RFC kein Spielraum für falsche Interpretationen. 
+	Darüber hinaus werden alle Veränderungen eines RFC dokumentiert und ein einmal abgeschlossener RFC darf niemals wieder verändert werden. 
+	Er kann in dem Fall nur durch einen neuen RFC abgelöst werden. Während der eigentliche Begriff Request for Comments 
+	darauf hindeutet, dass nur Kommentare zu einer neuen Spezifikation gewünscht werden, bleibt ein RFC auch nach der Akzeptanz 
+	als Standard weiter bestehen.
+	
+	Die einzelnen Stufen eines RFC's sind die folgenden:
+	*RFC-Stufen*
+		1. Informational: Diese Stufe ist als Ansatz gedacht, der eine Grundidee beschreibt, jedoch noch nicht zur Anwendung kommt.
+		2. Experimental: In diesem Stadium werden erste Prototypen getestet, die den RFC implementieren. 
+		3. Proposed Standard: Ab diesem Stadium steht die Standardisierung des RFC's zur Debatte.
+		4. Draft Standard: Für dieses RFC Stadium müssen zwei unabhängige Implementierungen des RFC's begutachtet und kommentiert werden.
+		5. Standard: Ab diesem Stadium ist ein RFC als offizieller Standard akzeptiert
+
+*** Examples
+
+** DNS
+*** What is a spoofing attack?
+	Bei einer spoofing Attacke versucht ein Angreifer sich als eine andere Person oder ein anderes Programm auszugeben,
+	um zum Beispiel Denial of Service Attacken auszuführen.
+	
+*** How does a spoofing attack on DNS work?
+	Eine Möglichkeit ist die, dass der Angreifer einem Authoritative Name Server (ANS) kleine Anfragen schickt,
+	die deutlich größere Antworten generieren. Im Beispiel des Papers schickt der Angreifer einen Request mit 50 Bytes,
+	der eine 500 Bytes große Antwort zurückliefert. Indem er bei der Anfrage nun nicht seine IP, sondern die eines Dritten
+	einträgt, kann er durch Häufige Anfragen zum einen die Durchsatzrate von legitimen Requests schmälern, zum anderen
+	eine DoS gegen einen Dritten durchführen, bei dem 10 Mal mehr Daten an ihn gesendet werden, als der Upload des Angreifers
+	zulässt.
+
+*** What are two potential goals of an attacker when performing a spoofing attack?
+	Wie oben beschrieben ist es möglich, damit eine IP Adresse mit sehr vielen Anfragen zu fluten, was eine DoS zur Folge haben kann.
+	Über 'Cache poisining attacks' lassen sich außerdem DNS-Einträge verändern. Ein Angreifer versucht in dem Fall seine
+	Seite genauso aussehen zu lassen, wie die die unter dieser Adresse erwartet wird. Dabei versucht er im Hintergrund
+	Viren und andere schädliche Inhalte an Besucher der Website zu verteilen.
+
+*** How does DNS Guard work?
+
+*** How do the authors evaluate their approach?
