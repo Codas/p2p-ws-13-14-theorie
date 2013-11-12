@@ -43,11 +43,23 @@
 	zulässt.
 
 *** What are two potential goals of an attacker when performing a spoofing attack?
-	Wie oben beschrieben ist es möglich, damit eine IP Adresse mit sehr vielen Anfragen zu fluten, was eine DoS zur Folge haben kann.
+	Wie oben beschrieben ist es möglich, damit eine IP Adresse mit sehr vielen Anfragen zu fluten, was einen DoS zur Folge haben kann.
 	Über 'Cache poisining attacks' lassen sich außerdem DNS-Einträge verändern. Ein Angreifer versucht in dem Fall seine
 	Seite genauso aussehen zu lassen, wie die die unter dieser Adresse erwartet wird. Dabei versucht er im Hintergrund
 	Viren und andere schädliche Inhalte an Besucher der Website zu verteilen.
 
 *** How does DNS Guard work?
+	Die Idee des DNS Guard ist es Cookies einzuführen, die eine Antwort vom Anfragensteller erzwingen, um Spoofing zu verhindern.
+	Zwei Fälle werden abgedeckt:
+		1. Es wird eine Verweisung (NS - Name Service Record) auf den Namen eines ANS's als Antwort einer Anfrage übergeben. 
+		   Der Guard fängt in dem Fall, die Anfrage ab und schickt die angefragte NS an den Anfragensteller zurück mit einem 
+		   vorne angehängten Cookie. Der Anfragensteller versucht nun diese NS aufzulösen, indem er die NS mit dem Cookie an den ANS schickt. 
+		   Der Guard erkennt, dass der Cookie und die IP der Anfrage zusammenpassen und leitet es weiter an den ANS, der 
+		   die IP der nächsten Domain zurückliefert.
+		2. Die Anfrage hat eine Adresse (A) als Antwort, die nicht mehr auf einen weiteren ANS's verweist. In dem Fall würde,
+		   die Authentifikation mit dem Cookie dazu führen, dass das simple Senden des A Eintrags vom Anfragensteller als
+		   weiterer ANS interpretiert wird. Deshalb wird der NS mit dem angehängten Cookie zusammen mit einem zweiten Cookie
+		   als IP Adresse zurückgeschickt. Der Anfragensteller schickt nun seine ursprüngliche NS ohne den Cookie zusammen mit 
+		   dem Cookie für die IP Adresse an den ANS, der nun die tatsächliche IP zurückliefert, die der LRS als A Eintrag interpretiert.
 
 *** How do the authors evaluate their approach?
