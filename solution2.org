@@ -28,6 +28,17 @@
 		5. Standard: Ab diesem Stadium ist ein RFC als offizieller Standard akzeptiert
 
 *** Examples
+	RFC 1149 beschreibt das Senden von IP Packeten via Vogelpost, indem der Brieftaube das zu sendende Packet ans Bein gebunden wird.
+	RFC 2549 erweitert RFC 1149 um verschiedene Dienstqualitäts-Level und Straußenvögel, Vorschläge zum Labeling, Verschlüsselungen
+				Queueing
+				
+	Der in den zwei RFC propagierte Ansatz ist weder für P2P noch für client/server communication verwendbar, da der Datendurchsatz
+	sehr gering ist. Darüber hinaus ist die Verzögerung zwischen Senden und Empfangen enorm und Stürme oder Kälteperioden 
+	beeinträchtigen die erfolgreiche Empfangsrate enorm. Darüber hinaus werden die Informationen via Papier übertragen, was bei einem
+	plötzlichen Regenschauer zu Fehlbits führen kann, wodurch die Nachricht falsch interpretiert werden kann. Während bei
+	einem normalen Server/Client - Modell die Verbindungen langsam steigen, mit hinzukommenden Clients, sind in einem P2P System
+	Peers mit vielen anderen Peers verbunden, was zu einem rasanten Zuwachs der benötigten Brieftauben bzw. Vogelsträuße führen kann.
+	Außerdem wurde im Paper nicht hinreichend erklärt, wie die Loggininformationen aus den Vogelhäufen extrahiert werden können.
 
 ** DNS
 *** What is a spoofing attack?
@@ -63,3 +74,14 @@
 		   dem Cookie für die IP Adresse an den ANS, der nun die tatsächliche IP zurückliefert, die der LRS als A Eintrag interpretiert.
 
 *** How do the authors evaluate their approach?
+	Zuerst werden mögliche Attacken behandelt und erklärt wie diese abgewehrt bzw. unschädlich gemacht werden können. Ein möglicher Angriff
+	besteht darin den DNS Server als Bandbreitenverstärker auszunutzen, jedoch tritt bei dieser Implementierung eine Bandbreitenverstärkungsrate 
+	von 50% auf, die diesen Angriff unschädlich machen. Darüber hinaus wird die Sicherheit des Cookies besprochen, der erraten werden kann.
+	Dies ist für kleine Netzwerke weiterhin ein Problem, dass jedoch durch eine Anfragen-Limitierung entschärft werden kann. Eine weitere Möglichkeit
+	einen Cookie zu generieren ist den zugrunde liegenden Hashkey zu ermitteln. In dieser Implementierung wird MD5 benutzt, der zur Zeit
+	der Publizierung des Papers bereits als kryptographisch unsicher galt. Außerdem wird noch die Möglichkeit eines Floodings des DNS guards mit
+	falschen Cookies besprochen, der jedoch bei der Wahl eines schnellen Hashverfahrens sehr robust ist.
+	
+	Darüber hinaus wird eine Performancevalidierung präsentiert. Genutzt wurde dazu ein ANS Simulator und ein LRS Simulator, bei denen
+	das Verfahren mit UDP und TCP Verbindungen getestet wurden. Dieser Versuch wurde zweimal ausgeführt, einmal mit Attacken auf den DNS Guard
+	und einmal ohne.
