@@ -1,0 +1,38 @@
+#+TITLE:                P2P - Theorie Aufgabe 3
+#+AUTHOR:               Arne Link (1582381), Lars Fritche (1691285) \\ Gruppe 14 (S217/103)
+#+LANGUAGE:             de
+#+startup:              koma-article
+#+LaTeX_CLASS:          koma-article
+#+OPTIONS:              toc:nil
+#+LATEX_HEADER:         \renewcommand{\thesubsubsection}{\alph{subsubsection})}
+
+* Aufgabe 3.1 P2P file sharing
+** Napster
+*** What are the components of Napster and what is each component responsible for?
+*** How does a peer find content in Napster?
+*** How does a peer retrieve content in Napster?
+
+** KaZaA
+*** What are the components of KaZaA and what is each component responsible for?
+*** How does a peer find content in KaZaA?
+*** How does a peer retrieve content in KaZaA?
+
+** Comparison
+*** Which of the four systems is most resilient to attacks?
+*** Which of the four systems is least resilient to attacks?
+*** Which of the four systems returns the best search results?
+*** Which of the four systems is the best choice for distributing large files?
+*** Which of the four systems has the smallest messaging overhead for finding content?
+
+* Aufgabe 3.2 KaZaA
+** Query Routing in KaZaA
+
+| Round | Sender | Receiver |
+|-------+--------+----------|
+|       |        |          |
+
+** Result Routing in KaZaA
+
+| Round | Sender | Receiver |
+|-------+--------+----------|
+|       |        |          |
