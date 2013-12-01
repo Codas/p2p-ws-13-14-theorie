@@ -9,30 +9,112 @@
 * Aufgabe 3.1 P2P file sharing
 ** Napster
 *** What are the components of Napster and what is each component responsible for?
+Napster besteht aus einen zentralen Server und vielen Clients. Clients melden
+beim zentralen Server einerseits, welche Dateien sie zur Verfügung stellen
+wollen und andererseits, welche Dateien sie von anderen Peers laden wollen. Der
+Server übernimmt in dem Sinne die Vermittlung und dient als Index der im
+gesamten Netzwerk angebotenen Dateien, wohingegen die Clients die eigentlichen
+Content Anbieter darstellen und die Dateien an andere Peers verteilen.
 *** How does a peer find content in Napster?
+Indem jeder beim zentralen Server meldet, welche Dateien er
+bereitstellt. Suchanfragen werden ebenfalls an diesen Server gestellt, welche
+dann einfach beantwortet werden können.
 *** How does a peer retrieve content in Napster?
+Auf Suchanfragen nach Dateien antwortet der Server mit einer Liste an Peers, die
+diese Dateien anbieten. Daraufhin wird eine direkte Verbindung zwischen diesene
+Clients hergestellt und die Datei kann heruntergeladen werden.
 
 ** KaZaA
 *** What are the components of KaZaA and what is each component responsible for?
+In KaZaA gibt es sogenannte Ordinary Nods und Super Nodes.
+Super Nodes sind, genau wie Ordinary Nodes Benutzer des KaZaA Netzwerkes,
+verfügen aber über mehr Upload Kapazitäten.
+
+Super Nodes sind für die Weiterleitung und Beantwortung von Suchanfragen
+verantwortlich, während sich die Ordinary Nodes zu jeweils einer Super Node
+verbinden und diese über ihren content berichten und Suchanfragen an diese
+Super Node stellen.
+
+Ordinary Nodes sind nur dafür verantwortlich, ihren content bei der
+registrierten Suber Node zu melden, so dass dieses entsprechende Suchanfragen
+beantworten können.
 *** How does a peer find content in KaZaA?
+Peers fragen bei ihrer Super Node nach content. Diese geben ihr wissen über
+weitere verbundenen Ordinary Nodes weiter und fragen ihrerseits bei allen
+Super Nodes nach, mit denen sie verbunden sind.
 *** How does a peer retrieve content in KaZaA?
+Super Nodes antworten auf Suchanfragen mit den Adressen der Peers, die diesen
+Content bereitstellen. Dementsprechend wird zum herunterladen der Datei eine
+direkte Verbindung mit diesem Peer aufgebaut und die Datei(en) letztendlich über
+HTTP heruntergeladen.
+
+Um das herunterladen von Dateien in mehreren "chunks" zu ermöglichen, verwendet
+KazAa das UUHash verfahren, so dass Dateien halbwegs zuverlässig in kleinere
+Teile aufgeteilt und von mehreren Peers geladen werden können.
 
 ** Comparison
 *** Which of the four systems is most resilient to attacks?
+Gnutella, da es ein pures P2P System darstellt, in dem jeder Peer wirklich
+gleichwertig ist und sich jeder zu mehreren anderen Peers verbindet und
+Nachrichten im Netzwerk per flooding verteilt werden. Das macht es für angreifer
+schwer, gezielt Systeme auszuschalten oder zu übernehmen, um das Netzwerk zu
+kontrollieren.
 *** Which of the four systems is least resilient to attacks?
+Napster, da alles über einen zentralen Server (oder Server Farm) läuft, die bei
+Ausfall den Ausfall des gesamten Netzwerkes zur Folge hat.
 *** Which of the four systems returns the best search results?
+Napster, da ein Zentraler Server über ein konsistentes Bild des Netzwerkes und
+der Angebotenen Dateien verfügt. Dieser Server weiß über alle angebotenen
+Dateien Bescheid und Suchanfragen können direkt beantwortet werden.
 *** Which of the four systems is the best choice for distributing large files?
+BitTorrent, da Dateien effizient in mehrere Teile aufgeteilt und von
+verschiedenen Peers geladen werden können. Obwohl dies prinzipiell auch in
+anderen Netzwerken möglich ist, hat BitTorrent den Vorteil, dass jeder Teil
+einer Datei mit SHA-1 gehascht wird, was das System weniger anfällig gegen
+korrumpierte Dateien (entweder absichtlich oder durch sonstige Fehler) macht,
+als beispielsweise KaZaA.
 *** Which of the four systems has the smallest messaging overhead for finding content?
+Napster, da jeder Client nur einer Instanz von dem angebotenen Daten
+berichten muss und auf der anderen Seite Anfragen nach Daten auf direkten weg
+von dem Server beantwortet werden können. Es sind demnach um eine Datei zu
+finden (Anzahl Anbieter) + 2 Nachrichten notwendig, um eine Datei zu finden und
+eine Verbindung zu dem Peer aufbauen zu können.
+
+BitTorrent hat ähnlich wenig messaging overhead, allerdings muss der Client erst
+über einen Web Server die Adresse eines Trackers bekommen, was für einen
+knappen zweiten Platz sorgt.
 
 * Aufgabe 3.2 KaZaA
 ** Query Routing in KaZaA
 
 | Round | Sender | Receiver |
 |-------+--------+----------|
-|       |        |          |
+|     1 | S4.1   | S4       |
+|     2 | S4     | S1       |
+|     2 | S4     | S3       |
+|     2 | S4     | S5       |
+|     3 | S1     | S2       |
+|     3 | S1     | S3       |
+|     3 | S1     | S2       |
+|     3 | S3     | S1       |
+|     3 | S3     | S2       |
+|     3 | S5     | S1       |
 
 ** Result Routing in KaZaA
 
 | Round | Sender | Receiver |
 |-------+--------+----------|
-|       |        |          |
+|     2 | S4     | S4.1     |
+|     3 | S5     | S4       |
+|     4 | S4     | S4.1     |
+|     4 | S2     | S1       |
+|   (4) | (S2)   | (S3)     |
+|     5 | S1     | S4       |
+|   (5) | (S3)   | (S4)     |
+|     6 | S4     | S4.1     |
+
+Runden in "()" Stellen einen alternativen weg da, den S2 bei Erhalt der
+Suchanfrage wählen könnte. Da Jeder knoten die Suchanfragen speichert und
+doppelte anfragen ignoriert, sendet S2 wahrscheinlich (also angenommen, Result
+Routing funktioniert ähnlich wie Query Routing) nur an eine der Super Nodes die
+Result Nachricht.
