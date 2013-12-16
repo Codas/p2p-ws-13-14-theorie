@@ -17,6 +17,34 @@ Es macht also keinen Sinn den Wertebereich der Identifier aufzuteilen, wenn sich
 in Untermengen des Wertebereichs clustern.
 
 ** b) Content distribution over DHT's
+*** Chord
+Vorteil: Einfacher Aufbau, Klare verteilung des Contents.
+
+Nachteil: Ohne finger Trees recht anfällig gegen Ausfälle, auch mit noch anfällig gegen (gezielte) Angriffe.
+
+Use case: Filesharing, load balancing
+
+*** CAN
+Vorteil: ???
+
+Nachteil: ???
+
+Use case: ???
+
+*** Tapestry
+Vorteil: Sehr effizientes Routing, besonders von häufig abgefragten Content / zu häufig angesprochenen Nodes.
+
+Nachteil: Fehleranfälliger als beispielsweise KAD oder CAN (mit muliple realities), relativ komplizierte verwaltung des States pro Node.
+
+Use case: Filesharing, Effizienter unicast (P2P Messaging)
+
+*** KAD
+Vorteil: Sehr unanfällig gegen zufällige Ausfälle, schnelles Routing.
+
+Nachteil: Potentiell leicht ungleiche Verteilung des Netzwerkes, demzufolge längere Routing wege und ungleiche Verteilung des Contents. Macht es auch Anfällig gegen gezielte Angfriffe.
+
+Use case: Filesharing Netzwerke.
+
 
 ** c) Churn in DHT's
 Durch das schnelle Hinzukommen und Verlassen von Knoten wird die konsistente Adressierung erschwert, da alte Adressbereiche
@@ -25,7 +53,7 @@ es Features, wie die "finger tables" von Chord, da sich die "successor" zu versc
 diese Änderung jedoch schnell propagieren muss. Weiterhin können Hash buckets verloren gehen, wenn sich ein Knoten abmeldet,
 ohne seine Buckets in die Verantwortung eines anderen Knotens zu übertragen.
 
-Um das Problem der verlorenen Hash Buckets zu umgehen, könnten Adressbereiche doppelt vergeben werden, um sicherzustellen, dass 
+Um das Problem der verlorenen Hash Buckets zu umgehen, könnten Adressbereiche doppelt vergeben werden, um sicherzustellen, dass
 das plötzliche Verlassen eines Knotens, ohne DHT-konformes Abmelden, zu einem Informationsverlust führt.
 
 Um das Problem mit den "finger tables" zu umgehen, könnte man Quality-of-Service-Knoten einführen, die ein fester
@@ -53,7 +81,7 @@ unüblich 160 Fingers zu haben, sofern viele Knoten an der DHT mitwirken.
 
 ** c) Using finger tables
 
-Node 0: 
+Node 0:
 
 |   i   | target ID | successor |
 |-------+-----------+-----------|
