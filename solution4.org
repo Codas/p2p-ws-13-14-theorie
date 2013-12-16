@@ -8,13 +8,15 @@
 
 * Aufgabe 4.1 Distributed Hash Tables
 ** a) ID space partitioning
-Es kann deshalb vorteilhaft sein, da man so verhindern kann, dass die Zuteilung von Nodes auf Objectidentifier clustern kann
-und manche Nodes sehr viele Identifier verwalten müssen und andere sehr wenige. Man versucht die Verteilung also möglichst
-gleichmäßig zu gestalten, jedoch gilt das natürlich nur für die Annahme, dass die benutze Hashfunktion zur Erzeugung
-der Identifier gleichmäßig verteilte Werte erzeugt.
+Es kann deshalb vorteilhaft sein, da man so verhindern kann, dass die Zuteilung
+von Nodes auf Objectidentifier clustern kann und manche Nodes sehr viele
+Identifier verwalten müssen und andere sehr wenige. Man versucht die Verteilung
+also möglichst gleichmäßig zu gestalten, jedoch gilt das natürlich nur für die
+Annahme, dass die benutze Hashfunktion zur Erzeugung der Identifier gleichmäßig
+verteilte Werte erzeugt.
 
-Es macht also keinen Sinn den Wertebereich der Identifier aufzuteilen, wenn sich die Werte der einzelnen Einträge
-in Untermengen des Wertebereichs clustern.
+Es macht also keinen Sinn, den Wertebereich der Identifier aufzuteilen, wenn
+sich die Werte der einzelnen Einträge in Untermengen des Wertebereichs clustern.
 
 ** b) Content distribution over DHT's
 *** Chord
@@ -23,13 +25,6 @@ Vorteil: Einfacher Aufbau, Klare verteilung des Contents.
 Nachteil: Ohne finger Trees recht anfällig gegen Ausfälle, auch mit noch anfällig gegen (gezielte) Angriffe.
 
 Use case: Filesharing, load balancing
-
-*** CAN
-Vorteil: ???
-
-Nachteil: ???
-
-Use case: ???
 
 *** Tapestry
 Vorteil: Sehr effizientes Routing, besonders von häufig abgefragten Content / zu häufig angesprochenen Nodes.
@@ -47,19 +42,25 @@ Use case: Filesharing Netzwerke.
 
 
 ** c) Churn in DHT's
-Durch das schnelle Hinzukommen und Verlassen von Knoten wird die konsistente Adressierung erschwert, da alte Adressbereiche
-in die Obhut neuer Knoten übergehen, während parallel dazu Anfragen zu diesen Adressen gesendet werden. Darüber hinaus erschwert
-es Features, wie die "finger tables" von Chord, da sich die "successor" zu verschiedenen "fingers" schnell ändern können, sich
-diese Änderung jedoch schnell propagieren muss. Weiterhin können Hash buckets verloren gehen, wenn sich ein Knoten abmeldet,
-ohne seine Buckets in die Verantwortung eines anderen Knotens zu übertragen.
+Durch das schnelle Hinzukommen und Verlassen von Knoten wird die konsistente
+Adressierung erschwert, da alte Adressbereiche in die Obhut neuer Knoten
+übergehen, während parallel dazu Anfragen zu diesen Adressen gesendet
+werden. Darüber hinaus erschwert es Features, wie die "finger tables" von Chord,
+da sich die "successor" zu verschiedenen "fingers" schnell ändern können, sich
+diese Änderung jedoch schnell propagieren muss. Weiterhin können Hash buckets
+verloren gehen, wenn sich ein Knoten abmeldet, ohne seine Buckets in die
+Verantwortung eines anderen Knotens zu übertragen.
 
-Um das Problem der verlorenen Hash Buckets zu umgehen, könnten Adressbereiche doppelt vergeben werden, um sicherzustellen, dass
-das plötzliche Verlassen eines Knotens, ohne DHT-konformes Abmelden, zu einem Informationsverlust führt.
+Um das Problem der verlorenen Hash Buckets zu umgehen, könnten Adressbereiche
+doppelt vergeben werden, um sicherzustellen, dass das plötzliche Verlassen eines
+Knotens, ohne DHT-konformes Abmelden, zu einem Informationsverlust führt.
 
-Um das Problem mit den "finger tables" zu umgehen, könnte man Quality-of-Service-Knoten einführen, die ein fester
-Bestandteil des Netzes sind und mit einer extrem geringen Warscheinlichkeit ausfallen. Diese Knoten werden so verteilt,
-dass sie mit hoher Warscheinlichkeit als Eintrag der "finger tables" gewählt werden, womit sichergestellt ist, dass sich die Einträge
-auch bei einer hohen Join-Leave-Rate nicht oft ändern.
+Um das Problem mit den "finger tables" zu umgehen, könnte man
+Quality-of-Service-Knoten einführen, die ein fester Bestandteil des Netzes sind
+und mit einer extrem geringen Warscheinlichkeit ausfallen. Diese Knoten werden
+so verteilt, dass sie mit hoher Warscheinlichkeit als Eintrag der "finger
+tables" gewählt werden, womit sichergestellt ist, dass sich die Einträge auch
+bei einer hohen Join-Leave-Rate nicht oft ändern.
 
 * Aufgabe 4.2 Chord
 ** a) Routing path length
@@ -68,16 +69,21 @@ Im worst-case benötigt man einen kompletten Kreisumlauf mit 2^n Hops.
 Verwendet man "finger tables" so verändert sich die Komplexitätsklasse von O(n) nach O(log n).
 Dies bedeutet dass man maximal n * log(2) Hops benötigt und im Durchschnitt n * log (2) /2.
 
-Wenn man nun nicht mehr von einer vollständigen Besetzung des Rings ausgeht, so ändert sich für die "finger tables"
-nichts, da die Intervalle fest gewählt werden. Für den normalen Weg über die einzelnen Successverbindungen
-ändert sich der maximale Weg zu N und der durchschnittliche Weg zu N/2.
+Wenn man nun nicht mehr von einer vollständigen Besetzung des Rings ausgeht, so
+ändert sich für die "finger tables" nichts, da die Intervalle fest gewählt
+werden. Für den normalen Weg über die einzelnen Successverbindungen ändert sich
+der maximale Weg zu N und der durchschnittliche Weg zu N/2.
 
 ** b) Finger table size
-Die maximale Anzahl der "fingers" kann direkt aus der Bitzahl des Wertebereichs der Identifier abgelesen werden, deshalb kann es
-bis zu n "fingers" geben. In der Realität wird über die IP via SHA-1 gehasht, wobei der Wertebereich der Hashfunktion = [0, 2^160 - 1].
-Das bedeutet, dass es bis zu 160 "fingers" geben kann, während wir für die maximale Anzahl an Nodeidentifier 2^32 Hashwerte erhalten
-(zusammen mit dem Port wären es sogar 2^48). Da diese Hashwerte gleichmäßig verteilt sind, ist es auch in der Realität wohl nicht
-unüblich 160 Fingers zu haben, sofern viele Knoten an der DHT mitwirken.
+Die maximale Anzahl der "fingers" kann direkt aus der Bitzahl des Wertebereichs
+der Identifier abgelesen werden, deshalb kann es bis zu n "fingers" geben. In
+der Realität wird über die IP via SHA-1 gehasht, wobei der Wertebereich der
+Hashfunktion = [0, 2^160 - 1].
+Das bedeutet, dass es bis zu 160 "fingers" geben kann, während wir für die
+maximale Anzahl an Nodeidentifier 2^32 Hashwerte erhalten (zusammen mit dem Port
+wären es sogar 2^48). Da diese Hashwerte gleichmäßig verteilt sind, ist es auch
+in der Realität wohl nicht unüblich 160 Fingers zu haben, sofern viele Knoten an
+der DHT mitwirken.
 
 ** c) Using finger tables
 
