@@ -31,11 +31,11 @@ be filled.
 ** Lookup algorithm
 For lookup, \alpha nodes, closest to the searched key or node are chosen (via
 XOR metric). \alpha is a global concurrency parameter, usually 3.
-Each of these nodes are then sent the FIND_NODE message, returning the k closest
+Each of these nodes are then sent the \texttt{FIND\_NODE} message, returning the k closest
 nodes to the target key. Upon receiving the list of nodes, the \alpha nodes
 closest to the target that have not yet been queried are recursively sent the
-FIND_NODE message. If no node is closer to the target than the already queried
-nodes, the FIND_NODE message is extended to the k closest nodes not already
+\texttt{FIND\_NODE} message. If no node is closer to the target than the already queried
+nodes, the \texttt{FIND\_NODE} message is extended to the k closest nodes not already
 queried.
 When all relevant nodes have been queried, the node(s) closest to the target
 have been identified.
@@ -262,21 +262,21 @@ index \in [0, 4]
 
 ** Requests
 \begin{description}
-\item[HELLO\_REQ]
+\item[\texttt{HELLO\_REQ}]
 Message to test if a contact node is still alive. Checked approximately every
 two hours if not checked otherwise (regular messages for example). Used to keep
 only live nodes in the k-bucket list, to avoid timeouts in later queries.
-Furthermore, HELLO_REQ messages are used to inform other nodes of address
+Furthermore, \texttt{HELLO\_REQ} messages are used to inform other nodes of address
 changes.
 
-\item[SEARCH\_REQ]
-Once a replica root is found, a SEARCH\_REQ message with the search keyword is
+\item[\texttt{SEARCH\_REQ}]
+Once a replica root is found, a \texttt{SEARCH\_REQ} message with the search keyword is
 sent to the replica root. The answer to this message are the content pieces. If
 more than 300 are found (from one node only or from multiple nodes), no more
-SEARCH\_REQ or KADEMLIA\_REQ messages for this keyword are sent anymore.
+\texttt{SEARCH\_REQ} or \texttt{KADEMLIA\_REQ} messages for this keyword are sent anymore.
 Acts as a means of content discovery.
 
-\item[KADEMLIA\_REQ]
+\item[\texttt{KADEMLIA\_REQ}]
 Used for discovery of nodes that have certain content. Contains MD4 hash of the
 keyword that is looked for. The response are more contacts that are closed to
 being replica roots for that keyword. A node is considered a match if its
@@ -287,24 +287,60 @@ constant).
 
 ** Attacks
 \begin{description}
+\item[Reflection Attack]
+This attack relies on hijacking the entire routing table of several nodes to
+point back to the node itself. It then answers all incoming \texttt{KADEMLIA\_REQ}
+messages with its own address (but different IDs), effectively making him
+unable to access any legitimate node again (since the victim node will always
+be online) and unwillingly poison the \texttt{KADEMLIA\_REQ} messages.
+If this reflection attack is done to enough nodes, many nodes will be unable to
+access any valid information at all, and even more nodes will get bogus
+responses to their queries, resulting in large parts of the KAD network to be
+inaccessible.
+This attack is carried out in two phases:
+\begin{description}
+\item[Crawling Phase]
+First the attacking nodes gather valid routing information to find nodes in
+their neighborhood. This can be done following the standard KAD / Kademlia
+protocol.
+Also, the attacking nodes have to gather the entire routing
+table of the victim nodes. To do so, many \texttt{KADEMLIA\_REQ} messages are sent,
+leading (given certain keys) to the discovery of most or all routing entries
+of the victim node.
+\item[Back-pointer hijacking] The attacking nodes send \texttt{HELLO\_REQ} messages to
+the victim node, impersonating valid routing entries in the victims node but
+always using the victims node IP address. This leads to the aforementioned
+effect of poising all incoming request and being unable to connect any alive KAD
+node. In order to keep this state however, every routing entry of the victim node
+has to be attacked, too, in order to keep the legitimate nodes from sending
+\texttt{HELLO\_REQ} messages to the victim, which would reverse the attack and make the
+node operational again.
+\end{description}
+
+This attack is very effective because after the crawling phase, only
+\texttt{HELLO\_REQ} messages have to be sent, making it possible to execute this
+attack with limited available bandwidth. The maintenance of this attack is
+essentially free since the invalid routing entries will only ever be reversed
+when previously of line nodes come back online.
+
 \item[Poisoning Attack]
 This attack is about inserting many amounts of bogus bindings so that a user that
-is searching for a specifc key will need (in case of 75% bogus entries) in average
+is searching for a specific key will need (in case of 75% bogus entries) in average
 four tries to find the right one. The attack consists of two phases. The first one
 is the preparation phase in which one or many nodes are listening to the network
-to collect as many keyword-file-bindings as possible. Phase two is the execution 
-phase in which bogus entries for each found keyword-file-binding are generated 
-and spread. This attack is very weak because the bandwidth that is needed to 
+to collect as many keyword-file-bindings as possible. Phase two is the execution
+phase in which bogus entries for each found keyword-file-binding are generated
+and spread. This attack is very weak because the bandwidth that is needed to
 execute this attack is very high and the damage that is caused is to low
 to be efficient.
 
 \item[Sybil Attack]
-The intention of a Sybil Attack is to collect so called back-pointers to attrack query 
+The intention of a Sybil Attack is to collect so called back-pointers to attrack query
 messages and increase the influence of the attacker in the network. To do so several nodes
 are inserted that act as normal network nodes. It takes some time for a node to become
-fully integrated into the network which is measured by KADEMLIA_REQ messages that
-are sent by the node with its own nodeID as the targetID. By receiving so called 
-KADEMLIA_RES messages it can see that it is on the routing table of the receiver node.
+fully integrated into the network which is measured by \texttt{KADEMLIA\_REQ} messages that
+are sent by the node with its own nodeID as the targetID. By receiving so called
+\texttt{KADEMLIA\_RES} messages it can see that it is on the routing table of the receiver node.
 When one node is in the routing table of enough normal nodes it is called a Sybil Node
 which means the node successfully infiltrated the network. To have many Sybil Nodes effectivly
 reduces the wall-clock time and bandwidth expenditure that is needed to attack the network.
