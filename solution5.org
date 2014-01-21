@@ -266,6 +266,8 @@ index \in [0, 4]
 Message to test if a contact node is still alive. Checked approximately every
 two hours if not checked otherwise (regular messages for example). Used to keep
 only live nodes in the k-bucket list, to avoid timeouts in later queries.
+Furthermore, HELLO_REQ messages are used to inform other nodes of address
+changes.
 
 \item[SEARCH\_REQ]
 Once a replica root is found, a SEARCH\_REQ message with the search keyword is
