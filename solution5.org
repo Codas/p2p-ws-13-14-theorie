@@ -284,3 +284,25 @@ constant).
 \end{description}
 
 ** Attacks
+\begin{description}
+\item[Poisoning Attack]
+This attack is about inserting many amounts of bogus bindings so that a user that
+is searching for a specifc key will need (in case of 75% bogus entries) in average
+four tries to find the right one. The attack consists of two phases. The first one
+is the preparation phase in which one or many nodes are listening to the network
+to collect as many keyword-file-bindings as possible. Phase two is the execution 
+phase in which bogus entries for each found keyword-file-binding are generated 
+and spread. This attack is very weak because the bandwidth that is needed to 
+execute this attack is very high and the damage that is caused is to low
+to be efficient.
+
+\item[Sybil Attack]
+The intention of a Sybil Attack is to collect so called back-pointers to attrack query 
+messages and increase the influence of the attacker in the network. To do so several nodes
+are inserted that act as normal network nodes. It takes some time for a node to become
+fully integrated into the network which is measured by KADEMLIA_REQ messages that
+are sent by the node with its own nodeID as the targetID. By receiving so called 
+KADEMLIA_RES messages it can see that it is on the routing table of the receiver node.
+When one node is in the routing table of enough normal nodes it is called a Sybil Node
+which means the node successfully infiltrated the network. To have many Sybil Nodes effectivly
+reduces the wall-clock time and bandwidth expenditure that is needed to attack the network.
