@@ -10,7 +10,7 @@
 
 ** F2F or DHT?
 Depending on the extensions used (Opennet or Darknet), Freenet could be seen as
-both. Opennet is a DHT in a sense, that any node an connect to any other
+both. Opennet is a DHT in a sense, that any node can connect to any other
 Opennet node, without the other node having to allow this connection.
 Darknet however is clearly a F2F network, as only explicitly trusted nodes are
 allowed to directly connect to each other.
@@ -26,7 +26,7 @@ table that most closely matches the key used for the file name. If the hop count
 is exhausted, a all clear message will be sent back to the inserting node the
 same path the storing message took to the target node.
 
-Upon reaching the initiator of the message, this node than sends the actual data
+Upon reaching the initiator of the message, this node sends the actual data
 to the same node it sent the initial store message to. This data is then saved
 by the first node and a cache entry in the routing table generated, pointing to
 the source of the data. The data is then propagated to the next node in the path
@@ -52,7 +52,7 @@ content is sent back the same path the successful query message took, with the
 data content and source being cached by each node along the way.
 
 For privacy reasons, each node can choose to alter the propagated insert message
-to claim itself or any other random node as data source.
+to claim itself or any other random node as data source. 
 
 ** Replication
 Replication is done automatically and lazily by Freenet.
@@ -77,6 +77,11 @@ as the data source designated.
 The data is therefore replicated on each retrieve and store request, even
 leading to the original content being replicated in case a malicious node tries
 to replicate fake data.
+
+This is done do ensure anonymity because other nodes act as data sources so that
+it is not clear who initially uploaded the data. Another reason for replication
+is to spread valid data into the network so that in case of false matches
+or matches with damaged data it is possible to search for better matches.
 
 * Aufgabe 6.2 Attacking Freenet
 
