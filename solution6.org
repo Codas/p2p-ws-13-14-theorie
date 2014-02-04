@@ -10,7 +10,7 @@
 
 ** F2F or DHT?
 Depending on the extensions used (Opennet or Darknet), Freenet could be seen as
-both. Opennet is a DHT in a sense, that any node an connect to any other
+both. Opennet is a DHT in a sense, that any node can connect to any other
 Opennet node, without the other node having to allow this connection.
 Darknet however is clearly a F2F network, as only explicitly trusted nodes are
 allowed to directly connect to each other.
@@ -60,29 +60,34 @@ This means, that data is being stored on each node the data is being routed
 upon. Example:
 
 Node A searches for data with the hashed description "YCTW4". The successful
-Path for the query goes from Node A to B, C and finally D as the data source.
-The content is therefore routed from D to C, C to B and finally from B to node
-A.
+Path for the query goes from Node $A$ to $B$, $C$ and finally $D$ as the data
+source.  The content is therefore routed from $D$ to $C$, $C$ to $B$ and finally
+from $B$ to node $A$.
 
-C, B and A will then cache the Data content and associated hash, as well as the
-data source D. B will however (as an example for a random node) choose, not to
-set D as the content source, but designate Y as the node the message originated
-from. Node B will choose to set itself as the data source when forwarding the
-content to A.
+$C$, $B$ and $A$ will then cache the Data content and associated hash, as well
+as the data source $D$. $B$ will however (as an example for a random node)
+choose, not to set $D$ as the content source, but designate Y as the node the
+message originated from. Node $B$ will choose to set itself as the data source
+when forwarding the content to $A$.
 
-On further request for the same data, all Nodes A, B, C, D will be able to
-satisfy the query and send the data back, but A and C will have different nodes
-as the data source designated.
+On further request for the same data, all Nodes $A$, $B$, $C$, $D$ will be able
+to satisfy the query and send the data back, but $A$ and $C$ will have different
+nodes as the data source designated.
 
 The data is therefore replicated on each retrieve and store request, even
 leading to the original content being replicated in case a malicious node tries
 to replicate fake data.
 
-* Aufgabe 6.2 Attacking Freenet
+The use of replication and this specific replication strategy is therefore to
+speed up access to frequently requested data, to generate backups of the
+original data in case someone wants to censor the network by overwriting
+existing data, as well as to anonmymize the data source.
+
+* TODO Aufgabe 6.2 Attacking Freenet
 
 ** Swapping
 Swapping in the Darknet routing algorithm is used to bring nodes similar
-Location Identifier ($L(n) = Location of n$ with $L(n) \in [0, 1)$) closer
+Location Identifier ($L(n) = \texttt{Location of }n$ with $L(n) \in [0, 1)$) closer
 together. This aids in finding short paths to the target node by increasing the
 probability that a certain node knows about other nodes similar to itself. This
 helps to void "dead ends" while searching for a node with a given key.
